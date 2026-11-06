@@ -1,0 +1,2 @@
+year,pop_bn,measured_pop_share,mean_measured_only,manski_lower,manski_upper,consistent_ml,consistent_ml_lo90,consistent_ml_hi90,lack_bn_manski_upper,lack_bn_consistent_ml,lack_bn_consistent_ml_lo90,lack_bn_consistent_ml_hi90,lack_bn_manski_lower
+2024,8.120100973,0.7231467095698639,66.56505719324738,48.136302081626646,70.78978177381967,69.63099879358775,68.44072004619846,70.27659539780213,2.371899214399492,2.4659935624522626,2.562645398600432,2.4135704663117967,4.211384639303615
