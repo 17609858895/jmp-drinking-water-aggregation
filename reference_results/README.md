@@ -13,3 +13,5 @@ These small CSV files preserve selected outputs of the study analyses. They supp
 * `vintage/E16_*`: global edition replication and matched-year revisions.
 
 All country names and codes are reporting-unit labels from JMP; the tables contain no household microdata or personal records. Display formatting belongs to the plotting code; these tables retain the original numeric values.
+
+The revised manuscript uses the `E07b` masking tables. The original `E07` table is retained for the original portable plots. `E17` contains sensitivity to completion methods and regional residual mixing, `E18` compares regional estimates with the published Annex 8 values, and `E19_reporting_checks.json` contains the ceiling and matched-domain bounds calculations. The vintage global and summary tables correspond to the edition comparisons in the revised manuscript.

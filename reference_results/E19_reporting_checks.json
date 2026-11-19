@@ -1,0 +1,48 @@
+{
+  "ceiling": [
+    {
+      "reference_year": 2024,
+      "headline": 74,
+      "countries": 219,
+      "published_countries": 159,
+      "national_ceiling": 70.78978177381967,
+      "complete_pair_variant": 70.831046607032,
+      "permissive_area_ceiling": 71.1726348077958,
+      "permissive_area_expanded_ceiling": 71.30777245548929,
+      "additional_countries": 13,
+      "additional_population_millions": 38.244899000000004
+    },
+    {
+      "reference_year": 2020,
+      "headline": 74,
+      "countries": 234,
+      "published_countries": 138,
+      "national_ceiling": 69.77744059538306,
+      "complete_pair_variant": 69.79543206995085,
+      "permissive_area_ceiling": 70.08538083975071,
+      "permissive_area_expanded_ceiling": 70.08538083975071,
+      "additional_countries": 0,
+      "additional_population_millions": 0.0
+    },
+    {
+      "reference_year": 2022,
+      "headline": 73,
+      "countries": 233,
+      "published_countries": 142,
+      "national_ceiling": 70.5910365339958,
+      "complete_pair_variant": 70.67098554813369,
+      "permissive_area_ceiling": 70.97977126671607,
+      "permissive_area_expanded_ceiling": 70.97977126671607,
+      "additional_countries": 0,
+      "additional_population_millions": 0.0
+    }
+  ],
+  "matched_household": {
+    "domains": 155,
+    "countries": 85,
+    "population_bn": 5.365187201460004,
+    "upper": 66.04316005694969,
+    "lower": 49.22399000245549,
+    "independence": 55.82931195173924
+  }
+}

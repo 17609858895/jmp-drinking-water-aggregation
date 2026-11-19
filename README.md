@@ -73,10 +73,30 @@ python run.py plots
 
 Numbering follows the study analysis sequence. The exploratory E10 completion route is omitted because the final country-preserving estimator uses E11. Some original CSV column names retain development labels (for example `manski_upper` for the country-preserving ceiling, `consistent_ml` for country-rule completion, and `MINIMA` in diagnostic labels). They do not identify a separately validated new ML algorithm.
 
+## Checks used in the revised manuscript
+
+The scripts below implement the updated masking, edition, reconstruction and sensitivity analyses. The original commands above remain available for the earlier diagnostics and portable plots. Run these commands from the repository root after preparing the JMP files. The vintage analyses require data harmonisation and the 2025-edition completion outputs for 2020 and 2022. The completion sensitivity requires the aggregation series and 2024 completion output.
+
+```bash
+python scripts/07b_masking_final_config.py 200
+python scripts/15_vintage_prospective.py 2021
+python scripts/15_vintage_prospective.py 2023
+python scripts/17_completion_sensitivity.py
+```
+
+For regional reconstruction, copy `reference_results/jmp2025_annex8_sm.csv` to `results/`. Alternatively, generate the same comparison inputs by running `python scripts/18a_parse_annex8.py /path/to/JMP_2025_report.pdf` with PyMuPDF installed and the [2025 JMP report](https://www.who.int/publications/i/item/9789240115149). Then run:
+
+```bash
+python scripts/18_regional_reconstruction.py
+python scripts/19_reporting_checks.py
+```
+
+The reporting check uses the prepared 2025, 2021 and 2023 water tables. It calculates national-component and relaxed ceilings, the expanded 2024 denominator, and the three household constructions on a matched subset with all components. Its results and the updated numerical summaries are included in `reference_results/`. The global dependence scenarios use approximations for places with incomplete components. The matched-domain bounds use common marginal inputs and weights. The release verifies the new arithmetic checks and regional comparison directly, and supplies the previously computed model outputs for comparison after retraining.
+
 ## Interpretation and reference outputs
 
 For the matched 2024 calculation, the original reference outputs give 73.59% under aggregate-then-minimum and 67.79% under minimum-then-aggregate. Their population-equivalent accounting difference is approximately 470.5 million. The country-preserving ceiling is 70.79%; the model-based country-rule completion is 69.63%, with a 90% model interval of 68.44–70.28%.
 
-The aggregation difference, available-criterion household-dependence range and completion-model interval answer different questions. They are not additive components of one uncertainty distribution. The completion interval conditions on the reported non-quality inputs and the implemented residual model; it does not include every source of survey or JMP revision uncertainty. Measurement priorities describe variance reduction within that model. Edition tests use later-published estimates at matched years and do not establish prospective forecast performance. The accounting differences do not identify particular households or imply a measured health burden.
+The aggregation difference, household dependence scenario spread and completion-model interval answer different questions. They are not additive components of one uncertainty distribution. The completion interval conditions on the reported non-quality inputs and the implemented residual model; it does not include every source of survey or JMP revision uncertainty. Measurement priorities describe variance reduction within that model. Edition tests use later-published estimates at matched years and do not establish prospective forecast performance. The accounting differences do not identify particular households or imply a measured health burden.
 
 `reference_results/README.md` documents the supplied summary tables. Raw input checksums are provided separately; no raw workbook is redistributed. No code license is added in this release.
