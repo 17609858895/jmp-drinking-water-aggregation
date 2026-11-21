@@ -45,7 +45,7 @@ def main():
     assert np.all(control.floor <= control.ceiling + 1e-8)
     assert not control.above_ceiling.any(), 'A sanitation total lies above its ceiling'
     checks = ['Python source syntax', 'aggregation and dependence bounds', 'population-equivalent units',
-              'published-country preservation', 'country-to-world weighted total', 'retained negative masking result',
+              'preservation of national estimates', 'country-to-world weighted total', 'retained negative masking result',
               'ordering of group floors and ceilings', 'regional excess where national estimates cover the population',
               'sanitation totals at or below their ceilings']
     if args.prepared:

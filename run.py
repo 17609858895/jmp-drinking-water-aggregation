@@ -56,7 +56,7 @@ def main():
     sub.add_parser('editions', help='Harmonise older workbooks and run retrospective edition tests')
     sub.add_parser('figure-tables', help='Generate original numerical figure input tables after analyses')
     p = sub.add_parser('plots', help='Create compact quantitative plots from generated or reference results')
-    p.add_argument('--reference', action='store_true', help='Use the supplied published-analysis summary tables')
+    p.add_argument('--reference', action='store_true', help='Use the supplied reference summary tables')
     p = sub.add_parser('smoke', help='Check release summaries, bounds, dependencies and source syntax; no fitting')
     p.add_argument('--prepared', action='store_true', help='Also check prepared real-data feature tables')
     args = parser.parse_args()
