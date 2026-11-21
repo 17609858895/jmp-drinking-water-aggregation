@@ -34,8 +34,20 @@ def main():
     assert global_.manski_lower <= global_.consistent_ml_lo90 <= global_.consistent_ml <= global_.consistent_ml_hi90 <= global_.manski_upper
     masking = pd.read_csv(ref / 'E07_masking_summary.csv', index_col=0)
     assert masking.loc['Regional mean, mean of mins', 'rmse'] < masking.loc['ML expected-min, mean of mins', 'rmse']
+    groups = pd.read_csv(ref / 'E20_group_ceilings.csv')
+    assert np.all(groups.floor <= groups.ceiling_national + 1e-8)
+    assert np.all(groups.ceiling_national <= groups.ceiling_permissive + 1e-8)
+    region = groups[(groups.group == 'Central and Southern Asia') & (groups.year == 2024)].iloc[0]
+    assert region.population_share_with_estimates > 99.9 and region.excess_over_permissive_ceiling > 6
+    matched = groups[groups.reproduced_within_one_point]
+    assert matched.groupby('year').exceeds_permissive_ceiling.sum().to_dict() == {2015: 11, 2024: 9}
+    control = pd.read_csv(ref / 'E21_sanitation_control.csv').dropna(subset=['regional_value'])
+    assert np.all(control.floor <= control.ceiling + 1e-8)
+    assert not control.above_ceiling.any(), 'A sanitation total lies above its ceiling'
     checks = ['Python source syntax', 'aggregation and dependence bounds', 'population-equivalent units',
-              'published-country preservation', 'country-to-world weighted total', 'retained negative masking result']
+              'published-country preservation', 'country-to-world weighted total', 'retained negative masking result',
+              'ordering of group floors and ceilings', 'regional excess where national estimates cover the population',
+              'sanitation totals at or below their ceilings']
     if args.prepared:
         sys.path.insert(0, str(ROOT / 'scripts'))
         import features as F
@@ -60,6 +72,12 @@ def main():
             recomputed = pd.read_csv(generated)
             pd.testing.assert_frame_equal(recomputed, series, check_exact=False, rtol=1e-12, atol=1e-10)
             checks.append('all recomputed aggregation/dependence series cells match reference outputs')
+        for name in ['E20_group_ceilings.csv', 'E21_sanitation_control.csv']:
+            generated = ROOT / 'results' / name
+            if generated.exists():
+                pd.testing.assert_frame_equal(pd.read_csv(generated), pd.read_csv(ref / name),
+                                              check_exact=False, rtol=1e-12, atol=1e-10)
+                checks.append(f'recomputed {name} matches the reference output')
     for module in ['scipy.optimize', 'sklearn', 'catboost', 'lightgbm', 'xgboost', 'pyarrow', 'openpyxl', 'joblib']:
         importlib.import_module(module)
     checks.append('analysis dependencies import successfully')

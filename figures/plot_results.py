@@ -88,6 +88,30 @@ def main():
     ax.legend(frameon=False)
     save(fig, output, 'measurement_priorities')
 
+    ceilings, control = source / 'E20_group_ceilings.csv', source / 'E21_sanitation_control.csv'
+    if not (ceilings.exists() and control.exists()):
+        print('group_compatibility skipped: run scripts/20_group_ceilings.py and scripts/21_sanitation_control.py first')
+        return
+    water = pd.read_csv(ceilings)
+    water = water[(water.year == 2024) & water.reproduced_within_one_point].sort_values('excess_over_permissive_ceiling')
+    sanitation = pd.read_csv(control)
+    sanitation = sanitation[(sanitation.year == 2024) & sanitation.regional_value.notna()].sort_values('regional_value')
+    fig, axes = plt.subplots(2, 1, figsize=(7, 8.5), height_ratios=[len(water), len(sanitation)])
+    positions = np.arange(len(water))
+    axes[0].hlines(positions, water.ceiling_permissive, water.published_group_value, color='0.6', linewidth=1)
+    axes[0].scatter(water.ceiling_permissive, positions, color=PURPLE, s=24, zorder=3, label='Permissive ceiling')
+    axes[0].scatter(water.published_group_value, positions, color=ROSE, s=24, zorder=3, label='Regional or global value')
+    axes[0].set_yticks(positions, water.group, fontsize=8)
+    axes[0].set(xlabel='Safely managed drinking water, 2024 (%)')
+    axes[0].legend(frameon=False, fontsize=8, ncol=2, loc='lower center', bbox_to_anchor=(.5, 1))
+    positions = np.arange(len(sanitation))
+    axes[1].hlines(positions, sanitation.floor, sanitation.ceiling, color=BLUE, linewidth=4, label='Floor to ceiling')
+    axes[1].scatter(sanitation.regional_value, positions, color=ROSE, s=24, zorder=3, label='Regional or global value')
+    axes[1].set_yticks(positions, sanitation.group, fontsize=8)
+    axes[1].set(xlabel='Safely managed sanitation, 2024 (%)')
+    axes[1].legend(frameon=False, fontsize=8, ncol=2, loc='lower center', bbox_to_anchor=(.5, 1))
+    save(fig, output, 'group_compatibility')
+
 
 if __name__ == '__main__':
     main()

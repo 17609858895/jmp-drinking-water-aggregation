@@ -137,6 +137,21 @@ for a in 'ur':
 AB = pd.DataFrame(ab).groupby(['area', 'element']).pop_bn.sum().unstack('element')
 AB.to_csv(FD / 'fig1_binding_population.csv'); print(AB.round(3))
 
+# same domain-level binding populations by SDG region (Fig. 1, regional composition of local bottlenecks)
+abr = []
+for a in 'ur':
+    p = y.pop_t * (pu if a == 'u' else 1 - pu)
+    has = y[f'rqual_{a}'].notna() & y.wat_sm_t.notna(); nat = y.wat_sm_t.notna() & ~has
+    va = y[[f'rprem_{a}', f'rav_{a}', f'rqual_{a}']]; va.columns = ['premises', 'availability', 'quality']
+    vn = y[['rprem_t', 'rav_t', 'rqual_t']]; vn.columns = ['premises', 'availability', 'quality']
+    el = pd.Series('no estimate', index=y.index)
+    el[has] = va[has].idxmin(axis=1); el[nat] = vn[nat].idxmin(axis=1)
+    abr.append(pd.DataFrame({'region': y.region_sdg, 'element': el, 'pop_bn': p / 1e6}))
+ABR = pd.concat(abr).groupby(['region', 'element']).pop_bn.sum().unstack('element').fillna(0)
+ABR = ABR.reindex(columns=['premises', 'availability', 'quality', 'no estimate'], fill_value=0)
+assert np.isclose(ABR.values.sum(), AB.values.sum())
+ABR.to_csv(FD / 'fig1_binding_by_region.csv'); print(ABR.round(3))
+
 # ------------------------------------------------------------------ Fig. 3: series with hard bound and required coverage
 S11 = pd.read_csv('results/E11_global_series.csv')
 Rt = R[R.level == 'total'].set_index('year')

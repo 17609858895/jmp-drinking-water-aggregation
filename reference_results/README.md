@@ -11,6 +11,9 @@ These small CSV files preserve selected outputs of the study analyses. They supp
 * `E09_*`: threshold-model and linear-extrapolation diagnostics, including weak results.
 * `vintage/E15_*`: retrospective country/area validation summaries. `as published then` uses earlier-edition non-quality inputs; the updated-input setting uses the 2025 edition. `lacking_*_M` is in millions; coverage and width metrics are empirical diagnostic summaries.
 * `vintage/E16_*`: global edition replication and matched-year revisions.
+* `E20_group_ceilings.csv`: country-preserving ceilings of safely managed drinking water for SDG regions, development and income groups and the world, 2015 and 2024. `population_million` is in millions; the other values are percentages. `ceiling_national` gives each country without an estimate its national-component ceiling; `ceiling_permissive` also lets any area without a documented value reach 100%. `excess_over_permissive_ceiling` starts from the lowest value that rounds to the Annex 8 value, and `reproduced_within_one_point` marks the totals that the aggregate-first reconstruction matches within one point.
+* `E21_sanitation_control.csv`: the same test for safely managed sanitation. `floor` and `ceiling` bound each country without an estimate between zero and its at-least-basic coverage. `pooled_component_total` averages each component over the rural and urban areas that report it and then adds the components.
+* `jmp2025_annex9_sm.csv`: regional and group values of safely managed sanitation read from Annex 9 of the 2025 report. Cells without a value in the report are empty; `>99` is stored as 99.5 and `<1` as 0.5.
 
 All country names and codes are reporting-unit labels from JMP; the tables contain no household microdata or personal records. Display formatting belongs to the plotting code; these tables retain the original numeric values.
 
